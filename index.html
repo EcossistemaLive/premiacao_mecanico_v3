@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plano Mecânico de Elite 2.0 | Live Consultoria</title>
+    
+    <!-- Importação de Fontes (Google Fonts) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:ital,wght@0,400;1,700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Ícones (FontAwesome via CDN para performance e visual) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* * 1. NÚCLEO DA IDENTIDADE VISUAL (TOKENS) 
+         */
+        :root {
+            /* Paleta Principal */
+            --primary-bg: #06192a;      /* Fundo principal */
+            --card-bg: #0A243D;         /* Fundo de cards */
+            --accent-color: #00e800;    /* Verde Vibrante */
+            
+            /* Textos */
+            --text-primary: #ffffff;
+            --text-muted: #cccccc;
+            --text-subtle: #a0a0a0;
+            
+            /* Bordas e Efeitos */
+            --border-color: rgba(255, 255, 255, 0.1);
+            --accent-glow: 0 0 8px rgba(0, 232, 0, 0.7);
+            
+            /* Espaçamento */
+            --space-sm: 1rem;
+            --space-md: 2rem;
+            --space-lg: 4rem;
+            
+            /* Fontes */
+            --font-primary: 'Poppins', sans-serif;
+            --font-secondary: 'Merriweather', serif;
+        }
+
+        /* * 2. RESET E ESTRUTURA GLOBAL 
+         */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--primary-bg);
+            /* Textura de fundo obrigatória */
+            background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
+            background-attachment: fixed;
+            color: var(--text-primary);
+            font-family: var(--font-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* * 3. CABEÇALHO (HEADER) 
+         */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 0;
+            background: rgba(6, 25, 42, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        header img {
+            height: 40px;
+            width: auto;
+        }
+
+        /* * 4. LAYOUT E CONTEÚDO PRINCIPAL 
+         */
+        main {
+            padding-top: 100px; /* Espaço para o header fixo */
+            padding-bottom: var(--space-lg);
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section {
+            margin-bottom: var(--space-lg);
+            opacity: 0; /* Para animação fade-in */
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: var(--space-sm);
+        }
+
+        h2 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            color: var(--accent-color);
+            margin-bottom: var(--space-md);
+            text-align: center;
+            text-shadow: var(--accent-glow);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        p {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .text-center { text-align: center; }
+        .text-accent { color: var(--accent-color); font-weight: bold; }
+        .highlight-box {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin: var(--space-sm) 0;
+            background: rgba(255,255,255,0.05);
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+
+        /* * 5. COMPONENTES (CARDS) 
+         */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: var(--space-md);
+            border-radius: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            border-color: rgba(0, 232, 0, 0.3);
+        }
+
+        /* Grid Layouts */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-md);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-md);
+            margin-top: var(--space-md);
+        }
+        
+        .grid-4-small {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+
+        /* Elementos Visuais Específicos */
+        .big-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            line-height: 1;
+            margin: 1rem 0;
+        }
+        
+        .base-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            line-height: 1;
+            margin: 1rem 0;
+        }
+
+        .level-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .bronze { color: #cd7f32; }
+        .silver { color: #c0c0c0; }
+        .gold { color: #ffd700; text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+
+        .list-check {
+            list-style: none;
+            text-align: left;
+            margin-top: 1rem;
+        }
+        .list-check li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: flex-start;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        .list-check li i {
+            margin-right: 10px;
+            color: var(--accent-color);
+            margin-top: 5px;
+        }
+
+        .alert-box {
+            border-left: 4px solid #ff4444;
+            background: rgba(255, 68, 68, 0.1);
+        }
+        .alert-title { color: #ff4444; font-weight: bold; margin-bottom: 0.5rem; display: block; }
+
+        /* Pills para os Pilares */
+        .pillar-pill {
+            display: inline-block;
+            background: rgba(0, 232, 0, 0.1);
+            color: var(--accent-color);
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Math visualization */
+        .math-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed var(--border-color);
+            font-size: 0.95rem;
+        }
+        .math-row:last-child {
+            border-bottom: none;
+        }
+        .math-total {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-primary);
+            margin-top: 0.5rem;
+        }
+
+        /* Botões */
+        .btn-regulamento {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+            color: var(--text-primary);
+            padding: 1rem 2rem;
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: var(--space-sm);
+            transition: all 0.3s ease;
+        }
+
+        .btn-regulamento:hover {
+            background-color: rgba(255,255,255,0.05);
+            border-color: var(--text-muted);
+        }
+
+        .btn-regulamento i { margin-right: 10px; font-size: 1.2rem; }
+
+        /* FAQ Accordion */
+        details {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        summary {
+            padding: 1rem;
+            cursor: pointer;
+            font-weight: 600;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        summary::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--accent-color);
+        }
+        details[open] summary::after {
+            content: '-';
+        }
+        .details-content {
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* * 6. ANIMAÇÃO (FADE-IN) 
+         */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: var(--space-md);
+            border-top: 1px solid var(--border-color);
+            color: var(--text-subtle);
+            font-size: 0.9rem;
+        }
+
+        /* Responsividade Extra */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .big-number { font-size: 2.5rem; }
+            .base-number { font-size: 1.8rem; }
+            .math-row { flex-direction: column; align-items: flex-start; gap: 5px; }
+            .math-row span:last-child { align-self: flex-end; font-weight: bold; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="https://raw.githubusercontent.com/Clebito2/ConsultoriaLive/main/Logo%20live%20oficial-21.png" alt="Live Consultoria">
+    </header>
+
+    <main>
+        <!-- INTRODUÇÃO -->
+        <section id="intro" class="text-center">
+            <h1>Plano Mecânico de Elite 2.0</h1>
+            <p>Não queremos que você ganhe apenas o salário base. Queremos você no topo da oficina.</p>
+            
+            <div class="card" style="max-width: 800px; margin: 2rem auto; border: 2px solid var(--accent-color);">
+                <h3>Sua Meta de Ganhos</h3>
+                <div style="display: flex; justify-content: center; align-items: baseline; gap: 15px; flex-wrap: wrap; margin-top: 1rem;">
+                    <span style="font-size: 1.1rem; color: var(--text-muted);">Salário Fixo</span>
+                    <span style="font-size: 1.5rem;">+</span>
+                    <span style="font-size: 1.1rem; color: var(--text-muted);">Comissões (8%)</span>
+                    <span style="font-size: 1.5rem;">+</span>
+                    <span class="text-accent" style="font-size: 1.3rem;">Prêmios por Desempenho</span>
+                    <span style="font-size: 1.5rem;">=</span>
+                </div>
+                <div class="big-number">R$ 6.000,00*</div>
+                <p style="font-size: 0.9rem; margin-bottom: 0;">*Exemplo para mecânicos Nível Ouro de alta produção. O segredo? Unir <strong>Mão na Massa</strong> com <strong>Qualidade Impecável</strong>.</p>
+            </div>
+        </section>
+
+        <!-- PILARES DA PONTUAÇÃO -->
+        <section id="pilares">
+            <h2>O Que Conta Para a Nota?</h2>
+            <p class="text-center" style="margin-bottom: 2rem;">
+                Sua comissão por produção é garantida (8%). Mas para conquistar os <strong>Prêmios Extras em Dinheiro</strong>, você é avaliado em 4 áreas.
+            </p>
+            
+            <div class="grid-4-small">
+                <div class="card">
+                    <span class="pillar-pill">40% da Nota</span>
+                    <div style="font-size: 2rem; color: var(--text-primary); margin-bottom: 0.5rem;"><i class="fa-solid fa-wrench"></i></div>
+                    <h3>Técnica</h3>
+                    <p style="font-size: 0.9rem;">
+                        • Retorno Zero (Garantia)<br>
+                        • Diagnóstico certo na 1ª vez<br>
+                        • Não desperdiçar peças
+                    </p>
+                </div>
+                <div class="card">
+                    <span class="pillar-pill">25% da Nota</span>
+                    <div style="font-size: 2rem; color: var(--text-primary); margin-bottom: 0.5rem;"><i class="fa-solid fa-users"></i></div>
+                    <h3>Comportamento</h3>
+                    <p style="font-size: 0.9rem;">
+                        • Baia limpa e organizada<br>
+                        • Ajudar o colega<br>
+                        • Segurança (EPIs)
+                    </p>
+                </div>
+                <div class="card">
+                    <span class="pillar-pill">20% da Nota</span>
+                    <div style="font-size: 2rem; color: var(--text-primary); margin-bottom: 0.5rem;"><i class="fa-solid fa-smile"></i></div>
+                    <h3>Cliente</h3>
+                    <p style="font-size: 0.9rem;">
+                        • Entregar no prazo prometido<br>
+                        • Laudo técnico claro<br>
+                        • Cordialidade
+                    </p>
+                </div>
+                <div class="card">
+                    <span class="pillar-pill">15% da Nota</span>
+                    <div style="font-size: 2rem; color: var(--text-primary); margin-bottom: 0.5rem;"><i class="fa-solid fa-book-open"></i></div>
+                    <h3>Cultura</h3>
+                    <p style="font-size: 0.9rem;">
+                        • Participar dos treinamentos<br>
+                        • Cuidar das ferramentas da empresa<br>
+                        • Evolução técnica
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- OS 3 NÍVEIS -->
+        <section id="niveis">
+            <h2>Prêmios por Nível</h2>
+            <p class="text-center" style="max-width: 800px; margin: 0 auto 2rem auto;">
+                Sua comissão sobre o faturamento é sempre fixa em 8%. <br>Os pontos definem o seu <strong>Prêmio por Desempenho Excepcional</strong>, pago livre de descontos.
+            </p>
+
+            <div class="grid-3">
+                <!-- Nível Bronze -->
+                <div class="card">
+                    <div class="text-center">
+                        <i class="fa-solid fa-medal level-icon bronze"></i>
+                        <h3>Nível Bronze</h3>
+                        <p>O Básico</p>
+                        <div class="highlight-box">80 a 89 pontos</div>
+                        <div class="base-number">8%</div>
+                        <p>de Comissão na M.O.</p>
+                        <p style="color: #ffaa00; font-weight: bold; margin-top: 10px;">Sem Prêmio Extra</p>
+                    </div>
+                    <hr style="border-color: var(--border-color); margin: 1rem 0;">
+                    <ul class="list-check">
+                        <li><i class="fa-solid fa-check"></i> Produção ok</li>
+                        <li><i class="fa-solid fa-triangle-exclamation" style="color: orange;"></i> Teve algum retorno leve</li>
+                        <li><i class="fa-solid fa-triangle-exclamation" style="color: orange;"></i> Baia as vezes desorganizada</li>
+                        <li><i class="fa-solid fa-xmark" style="color: #666;"></i> Fica apenas com a comissão</li>
+                    </ul>
+                </div>
+
+                <!-- Nível Prata -->
+                <div class="card">
+                    <div class="text-center">
+                        <i class="fa-solid fa-medal level-icon silver"></i>
+                        <h3>Nível Prata</h3>
+                        <p>Acima da Média</p>
+                        <div class="highlight-box">90 a 99 pontos</div>
+                        <div class="big-number" style="font-size: 2.2rem; color: #c0c0c0;">+ R$ 600,00</div>
+                        <p>de Prêmio por Desempenho</p>
+                        <p style="font-size: 0.85rem;">(Além da comissão de 8%)</p>
+                    </div>
+                    <hr style="border-color: var(--border-color); margin: 1rem 0;">
+                    <ul class="list-check">
+                        <li><i class="fa-solid fa-check"></i> Produção Alta</li>
+                        <li><i class="fa-solid fa-check"></i> <strong>Quase zero garantia</strong></li>
+                        <li><i class="fa-solid fa-check"></i> Baia sempre limpa</li>
+                        <li><i class="fa-solid fa-gift"></i> <strong>Prêmio limpo no bolso</strong></li>
+                    </ul>
+                </div>
+
+                <!-- Nível Ouro -->
+                <div class="card" style="border-color: var(--accent-color); box-shadow: 0 0 15px rgba(0,232,0,0.1);">
+                    <div class="text-center">
+                        <i class="fa-solid fa-trophy level-icon gold"></i>
+                        <h3>Nível Ouro</h3>
+                        <p>A Elite</p>
+                        <div class="highlight-box">100+ pontos</div>
+                        <div class="big-number" style="font-size: 2.8rem;">+ R$ 1.800,00</div>
+                        <p class="text-accent">de Prêmio por Desempenho</p>
+                        <p style="font-size: 0.85rem;">(Além da comissão de 8%)</p>
+                    </div>
+                    <hr style="border-color: var(--border-color); margin: 1rem 0;">
+                    <ul class="list-check">
+                        <li><i class="fa-solid fa-star"></i> <strong>ZERO Retorno</strong></li>
+                        <li><i class="fa-solid fa-star"></i> Cliente elogiou pelo nome</li>
+                        <li><i class="fa-solid fa-star"></i> Ajuda a treinar os novatos</li>
+                        <li><i class="fa-solid fa-crown"></i> <strong>Prêmio de elite isento de descontos</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXEMPLO PRÁTICO (MATH) -->
+        <section id="comparacao">
+            <h2>A Matemática do Holerite (Exemplo Real)</h2>
+            <p class="text-center">Simulação: Você faturou <strong>R$ 30.000,00</strong> em mão de obra no mês.</p>
+
+            <div class="grid-3">
+                <!-- Cenário Comum -->
+                <div class="card" style="opacity: 0.8;">
+                    <h3>😐 João "Bronze"</h3>
+                    <p>Fez o serviço, mas teve retornos e não cuidou da oficina.</p>
+                    
+                    <div style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                        <div class="math-row">
+                            <span>Salário Fixo</span>
+                            <span>R$ 1.800,00</span>
+                        </div>
+                        <div class="math-row">
+                            <span>Comissão (R$ 30k x 8%)</span>
+                            <span>R$ 2.400,00</span>
+                        </div>
+                        <div class="math-row">
+                            <span>Prêmio por Desempenho</span>
+                            <span>R$ 0,00</span>
+                        </div>
+                        <div class="math-row" style="border-top: 1px solid #fff; margin-top: 5px;">
+                            <span class="math-total">TOTAL BRUTO</span>
+                            <span class="math-total">R$ 4.200,00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cenário Prata -->
+                <div class="card" style="border: 1px solid #c0c0c0;">
+                    <h3>🥈 João "Prata"</h3>
+                    <p>Fez o serviço bem feito, organizado, mas faltou a excelência máxima.</p>
+                    
+                    <div style="background: rgba(192, 192, 192, 0.1); padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                        <div class="math-row">
+                            <span>Salário Fixo</span>
+                            <span>R$ 1.800,00</span>
+                        </div>
+                        <div class="math-row">
+                            <span>Comissão (R$ 30k x 8%)</span>
+                            <span>R$ 2.400,00</span>
+                        </div>
+                        <div class="math-row" style="color: #c0c0c0;">
+                            <span>Prêmio Extra Prata</span>
+                            <span>R$ 600,00</span>
+                        </div>
+                        <div class="math-row" style="border-top: 1px solid #c0c0c0; margin-top: 5px;">
+                            <span class="math-total" style="color: #c0c0c0;">TOTAL BRUTO</span>
+                            <span class="math-total" style="color: #c0c0c0; font-size: 1.4rem;">R$ 4.800,00</span>
+                        </div>
+                    </div>
+                     <div class="text-center" style="margin-top: 1rem; font-size: 0.9rem;">
+                        <i class="fa-solid fa-arrow-up"></i> Levou R$ 600 limpos de prêmio por mérito.
+                    </div>
+                </div>
+
+                <!-- Cenário Elite -->
+                <div class="card" style="border: 2px solid var(--accent-color);">
+                    <h3>🚀 João "Ouro"</h3>
+                    <p>Fez a mesma produção de 30k, mas com qualidade impecável e nota máxima.</p>
+                    
+                    <div style="background: rgba(0, 232, 0, 0.05); padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+                        <div class="math-row">
+                            <span>Salário Fixo</span>
+                            <span>R$ 1.800,00</span>
+                        </div>
+                        <div class="math-row">
+                            <span>Comissão (R$ 30k x 8%)</span>
+                            <span>R$ 2.400,00</span>
+                        </div>
+                        <div class="math-row" style="color: var(--accent-color);">
+                            <span>Prêmio Extra Ouro</span>
+                            <span>R$ 1.800,00</span>
+                        </div>
+                        <div class="math-row" style="border-top: 1px solid var(--accent-color); margin-top: 5px;">
+                            <span class="math-total" style="color: var(--accent-color);">TOTAL BRUTO</span>
+                            <span class="math-total" style="color: var(--accent-color); font-size: 1.5rem;">R$ 6.000,00</span>
+                        </div>
+                    </div>
+                    <div class="text-center" style="margin-top: 1rem; font-size: 0.9rem;">
+                        <i class="fa-solid fa-arrow-up"></i> Levou R$ 1.800 extras e limpos de impostos, apenas pela atitude e qualidade.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- A REGRA DE OURO -->
+        <section id="alerta">
+            <div class="card alert-box">
+                <span class="alert-title"><i class="fa-solid fa-triangle-exclamation"></i> O QUE AFETA SEUS GANHOS?</span>
+                <p style="color: #ffcccc;">
+                    Se mais de <strong>2 carros voltarem</strong> com o mesmo problema no mês (Garantia Procedente):
+                </p>
+                <ul style="color: #fff; margin-left: 20px; margin-bottom: 10px;">
+                    <li>Você perde o <strong>Prêmio por Desempenho</strong> na sua totalidade (os R$ 600 ou R$ 1.800 extras).</li>
+                    <li>Sua remuneração fica restrita ao Salário Fixo + Comissão Base (8%).</li>
+                </ul>
+                <p style="margin-bottom: 0; color: #fff; font-weight: bold;">
+                    Velocidade sem qualidade aqui não conta. Faça certo da primeira vez.
+                </p>
+            </div>
+        </section>
+
+        <!-- DÚVIDAS FREQUENTES (FAQ) -->
+        <section id="faq">
+            <h2>Dúvidas Frequentes</h2>
+            
+            <details>
+                <summary>Como minha nota é calculada?</summary>
+                <div class="details-content">
+                    Todo mês a gerência avalia as métricas do checklist interno: índice de retornos, inspeções de limpeza na baia e cumprimento das normas da empresa. A soma define sua classificação para o Prêmio.
+                </div>
+            </details>
+
+            <details>
+                <summary>E se eu ficar doente?</summary>
+                <div class="details-content">
+                    Faltas justificadas (atestado) não tiram pontos de comportamento. Porém, sua produção global será menor porque você trabalhou menos dias, o que afetará naturalmente o valor da sua Comissão Base.
+                </div>
+            </details>
+
+            <details>
+                <summary>O prêmio tem descontos no holerite?</summary>
+                <div class="details-content">
+                    Não. Conforme a legislação, o Prêmio por Desempenho é pago por mera liberalidade e mérito excepcional, sendo isento de encargos como INSS. Apenas o Salário Fixo e a Comissão (8%) sofrem os descontos legais.
+                </div>
+            </details>
+
+            <div class="text-center" style="margin-top: 3rem;">
+                <p>Para entender todas as regras legais, métricas de avaliação e detalhes de pagamento, consulte a documentação oficial da oficina.</p>
+                <a href="#" class="btn-regulamento"><i class="fa-solid fa-file-contract"></i> Ler o Regulamento Interno Completo</a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Live Consultoria. Todos os direitos reservados.</p>
+        <img src="https://raw.githubusercontent.com/Clebito2/layout/main/Logo%20live%20oficial-34.png" alt="Live Logo" style="height: 30px; margin-top: 10px; opacity: 0.7;">
+    </footer>
+
+    <!-- SCRIPT DE ANIMAÇÃO (Observer) -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('section').forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+
+</body>
+</html>
